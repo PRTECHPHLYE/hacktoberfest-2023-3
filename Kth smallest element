@@ -1,0 +1,56 @@
+Given an array arr[] and an integer K where K is smaller than size of array, the task is to find the Kth smallest element in the given array. It is given that all array elements are distinct.
+
+Note :-  l and r denotes the starting and ending index of the array.
+
+Example 1:
+
+Input:
+N = 6
+arr[] = 7 10 4 3 20 15
+K = 3
+Output : 7
+Explanation :
+3rd smallest element in the given 
+array is 7.
+Example 2:
+
+Input:
+N = 5
+arr[] = 7 10 4 20 15
+K = 4
+Output : 15
+Explanation :
+4th smallest element in the given 
+array is 15.
+
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+def quickSelect(arr, low, high, k):
+    if low < high:
+        pi = partition(arr, low, high)
+        if pi == k:
+            return arr[pi]
+        elif pi > k:
+            return quickSelect(arr, low, pi - 1, k)
+        else:
+            return quickSelect(arr, pi + 1, high, k)
+
+def findKthSmallest(arr, k):
+    if k > 0 and k <= len(arr):
+        return quickSelect(arr, 0, len(arr) - 1, k - 1)
+    return None
+
+# Example usage:
+arr = [7, 10, 4, 3, 20, 15]
+K = 3
+result = findKthSmallest(arr, K)
+print(result)  # Output: 7
